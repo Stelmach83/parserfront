@@ -1,0 +1,84 @@
+<div *ngIf="!showSummary">
+  <h3>Upload CSV file!</h3>
+  <br>
+  <div *ngIf="error">
+    <p style="color: red">{{ error }}</p><br>
+  </div>
+  <div *ngIf="result.status === 'error'">
+    {{ result.message }}
+  </div>
+  <div *ngIf="result.status === 'progress'">
+    <div role="progressbar" [style.width.%]="result.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+      {{result.message}}%
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input type="file" name="csv" (change)="onFileChange($event)"/>
+    <button type="submit">Upload</button>
+  </form>
+</div>
+
+<div *ngIf="showSummary">
+  <div *ngIf="uploadResponse.correctEntries > 0">
+    <h5 style="color: green">Successfully parsed {{ uploadResponse.correctEntries }} entries.</h5><br>
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>DOB</th>
+        <th>Phone number</th>
+        <th>Parsing status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of uploadResponse.addedEntries; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.dateOfBirth | date:'dd MMM yyyy'}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>
+          <ul style="list-style-type: none">
+            <li *ngFor="let message of user.parsingMessages" style="color: green">{{ message }}</li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <br>
+  </div>
+
+  <div *ngIf="uploadResponse.entriesWithErrors > 0">
+    <h5 style="color: red">Unsuccessfully parsed {{ uploadResponse.entriesWithErrors }} entries.</h5><br>
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>DOB</th>
+        <th>Phone number</th>
+        <th>Parsing status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of uploadResponse.invalidEntries; index as i">
+        <td>{{i + 1}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.dateOfBirth}}</td>
+        <td>{{user.phoneNumber}}</td>
+        <td>
+          <ol>
+            <li *ngFor="let message of user.parsingMessages" style="color: red">{{ message }}</li>
+          </ol>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <a (click)="goToUploadListUsers()">show all entries</a>
+</div>
