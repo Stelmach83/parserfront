@@ -15,6 +15,7 @@ export class UploadFileComponent implements OnInit {
   error: string;
   uploadResponse = new UploadResponse();
   showSummary: boolean;
+  showLoading = false;
   result = { status: '', message: '', filePath: '' };
 
   constructor(private formBuilder: FormBuilder, private uploadService: UploadService, private router: Router) {
@@ -34,18 +35,20 @@ export class UploadFileComponent implements OnInit {
   }
 
   onSubmit() {
+    this.showLoading = true;
     const formData = new FormData();
     formData.append('file', this.form.get('csv').value);
     this.uploadService.upload(formData).subscribe(
       result => {
-        this.uploadResponse = result;
         this.showSummary = true;
+        this.uploadResponse = result;
         this.result = result;
       },
       error => {
         this.error = `(${error.error.status}): ${error.error.message}`;
         this.showSummary = false;
-      }
+      },
+      () => this.showLoading = false
     );
   }
 

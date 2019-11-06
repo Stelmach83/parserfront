@@ -1,1 +1,40 @@
-<p>list-users works!</p>
+<div>
+  <h3>Entries list</h3>
+  <br>
+  <div>
+    <table *ngIf="users.length > 0" class="table table-sm">
+      <thead>
+      <tr>
+        <th>id.</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>DOB</th>
+        <th>Phone number</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{user.id}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.dateOfBirth | date:'dd MMM yyyy'}}</td>
+        <td>{{user.phoneNumber}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <h5 *ngIf="users.length <= 0">No entries. Please parse a file to add entries.</h5>
+    <br>
+  </div>
+</div>
+
+<div *ngIf="users.length > 0">
+  <nav aria-label="...">
+    <ul class="pagination">
+      <li class="page-item"><span class="page-link">Previous</span></li>
+      <li *ngFor="let pageNumber of allPages" class="page-item"><a class="page-link" href="" (click)="changePage(pageNumber)">{{pageNumber + 1}}</a></li>
+<!--      <a class="nav-link" routerLink="list-users">Show parsed entries</a>-->
+<!--      <li class="page-item"><a class="page-link" href="">1</a></li>-->
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav>
+</div>
