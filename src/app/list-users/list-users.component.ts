@@ -11,38 +11,26 @@ import { PageResponse } from '../model/pageresponse.model';
 export class ListUsersComponent implements OnInit {
 
   page = 0;
-  allPages: number[] = [];
   users: User[] = [];
   pageResponse: PageResponse;
+  totalPages: number;
 
 
   constructor(private uploadService: UploadService) {
   }
 
   ngOnInit() {
-    this.uploadService.getPageResults(this.page).subscribe(
-      data => {
-        this.users = data.content;
-        this.pageResponse = data;
-        for (let i = 0; i < data.totalPages; i++) {
-          this.allPages.push(i);
-        }
-      });
+    this.changePage(0);
   }
 
   changePage(page: number) {
     this.uploadService.getPageResults(page).subscribe(
       data => {
-        this.page = page;
         this.users = data.content;
         this.pageResponse = data;
-        this.allPages = [];
-        for (let i = 0; i < data.totalPages; i++) {
-          this.allPages.push(i);
-        }
-      }
-
-    );
+        this.totalPages = data.totalPages;
+        this.page = page;
+      });
   }
 
 }

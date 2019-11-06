@@ -30,11 +30,9 @@
 <div *ngIf="users.length > 0">
   <nav aria-label="...">
     <ul class="pagination">
-      <li class="page-item"><span class="page-link">Previous</span></li>
-      <li *ngFor="let pageNumber of allPages" class="page-item"><a class="page-link" href="" (click)="changePage(pageNumber)">{{pageNumber + 1}}</a></li>
-<!--      <a class="nav-link" routerLink="list-users">Show parsed entries</a>-->
-<!--      <li class="page-item"><a class="page-link" href="">1</a></li>-->
-      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      <li class="page-item"><a class="page-link" *ngIf="page > 0" (click)="changePage(page-1)">Previous</a></li>
+      <li *ngFor="let p of ' '.repeat(pageResponse.totalPages).split(''), let i = index" class="page-item" [class.active]="i === page"><a class="page-link" (click)="changePage(i)">{{i + 1}}</a></li>
+      <li class="page-item"><a class="page-link" *ngIf="page < totalPages" (click)="changePage(page+1)">Next</a></li>
     </ul>
   </nav>
 </div>

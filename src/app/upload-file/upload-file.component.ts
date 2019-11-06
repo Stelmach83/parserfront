@@ -47,6 +47,7 @@ export class UploadFileComponent implements OnInit {
       error => {
         this.error = `(${error.error.status}): ${error.error.message}`;
         this.showSummary = false;
+        this.showLoading = false;
       },
       () => this.showLoading = false
     );
