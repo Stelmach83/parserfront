@@ -3,6 +3,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { PageResponse } from './model/pageresponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UploadService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getPageResults(page: number): Observable<any> {
+  public getPageResults(page: number): Observable<PageResponse> {
     const getPageURL = `${environment.serverUrl}/users/page?page=${page}`;
     return this.httpClient.get<any>(getPageURL);
   }

@@ -14,12 +14,4 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
-  goToUploadCSV() {
-    this.router.navigate(['']);
-  }
-
-  goToUploadListUsers() {
-    this.router.navigate(['list-users']);
-  }
-
 }

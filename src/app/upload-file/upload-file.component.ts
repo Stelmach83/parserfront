@@ -49,8 +49,4 @@ export class UploadFileComponent implements OnInit {
     );
   }
 
-  goToUploadListUsers() {
-    this.router.navigate(['list-users']);
-  }
-
 }
