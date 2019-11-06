@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,11 @@ import { map } from 'rxjs/operators';
 export class UploadService {
 
   constructor(private httpClient: HttpClient) {
+  }
+
+  public getPageResults(page: number): Observable<any> {
+    const getPageURL = `${environment.serverUrl}/users/page?page=${page}`;
+    return this.httpClient.get<any>(getPageURL);
   }
 
   public upload(data) {
