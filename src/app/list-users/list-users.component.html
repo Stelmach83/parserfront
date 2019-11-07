@@ -1,8 +1,21 @@
 <div>
 
   <div class="users-list">
-    <h3>Entries list</h3>
-    <br>
+    <nav>
+      <div class="row">
+        <div class="col-8">
+          <h3>Entries list</h3>
+        </div>
+        <div class="col-4">
+          <form class="form-inline my-2 my-lg-0" *ngIf="users.length > 0" [formGroup]="form" (ngSubmit)="search()">
+            <input class="form-control mr-sm-2" type="text" formControlName="lastName" placeholder="Search by last name" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+      <br>
+    </nav>
+
     <div>
       <table *ngIf="users.length > 0" class="table">
         <thead>

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl: 'http://localhost:8080/v1'
+  serverUrl: 'http://localhost:8080/v1',
+  // serverUrl: 'http://77.55.233.217:8080/csvbackend/v1'
 };
 
 /*

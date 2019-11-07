@@ -13,6 +13,11 @@ export class UploadService {
   constructor(private httpClient: HttpClient) {
   }
 
+  public getUsersByLastName(lastName: string): Observable<PageResponse> {
+    const getPageURL = `${environment.serverUrl}/users/page/lastName?lastName=${lastName}`;
+    return this.httpClient.get<any>(getPageURL);
+  }
+
   public getPageResults(page: number): Observable<PageResponse> {
     const getPageURL = `${environment.serverUrl}/users/page?page=${page}`;
     return this.httpClient.get<any>(getPageURL);

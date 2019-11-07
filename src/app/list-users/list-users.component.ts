@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../model/user.model';
 import { UploadService } from '../upload.service';
 import { PageResponse } from '../model/pageresponse.model';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-list-users',
@@ -10,6 +11,7 @@ import { PageResponse } from '../model/pageresponse.model';
 })
 export class ListUsersComponent implements OnInit {
 
+  form: FormGroup;
   page = 0;
   users: User[] = [];
   pageResponse: PageResponse;
@@ -20,6 +22,9 @@ export class ListUsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.form = new FormGroup({
+      lastName: new FormControl('')
+    });
     this.changePage(0);
   }
 
@@ -56,6 +61,16 @@ export class ListUsersComponent implements OnInit {
           this.totalPages = data.totalPages;
         });
     }
+  }
+
+  search() {
+    this.uploadService.getUsersByLastName(this.form.get('lastName').value).subscribe(
+      data => {
+        this.users = data.content;
+        this.pageResponse = data;
+        this.totalPages = data.totalPages;
+        this.page = data.pageable.pageNumber;
+      });
   }
 
 }
