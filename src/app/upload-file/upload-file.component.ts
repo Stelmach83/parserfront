@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UploadService } from '../upload.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UploadResponse } from '../model/upload-response.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-file',
@@ -18,7 +17,7 @@ export class UploadFileComponent implements OnInit {
   showLoading = false;
   result = { status: '', message: '', filePath: '' };
 
-  constructor(private formBuilder: FormBuilder, private uploadService: UploadService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private uploadService: UploadService) {
   }
 
   ngOnInit() {
