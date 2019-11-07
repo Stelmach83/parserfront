@@ -1,38 +1,46 @@
 <div>
-  <h3>Entries list</h3>
-  <br>
-  <div>
-    <table *ngIf="users.length > 0" class="table table-sm">
-      <thead>
-      <tr>
-        <th>id.</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>DOB</th>
-        <th>Phone number</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{user.id}}</td>
-        <td>{{user.firstName}}</td>
-        <td>{{user.lastName}}</td>
-        <td>{{user.dateOfBirth | date:'dd MMM yyyy'}}</td>
-        <td>{{user.phoneNumber}}</td>
-      </tr>
-      </tbody>
-    </table>
-    <h5 *ngIf="users.length <= 0">No entries. Please parse a file to add entries.</h5>
-    <br>
-  </div>
-</div>
 
-<div *ngIf="users.length > 0">
-  <nav aria-label="...">
-    <ul class="pagination">
-      <li class="page-item"><a class="page-link" *ngIf="page > 0" (click)="changePage(page-1)">Previous</a></li>
-      <li *ngFor="let p of ' '.repeat(pageResponse.totalPages).split(''), let i = index" class="page-item" [class.active]="i === page"><a class="page-link" (click)="changePage(i)">{{i + 1}}</a></li>
-      <li class="page-item"><a class="page-link" *ngIf="page < totalPages" (click)="changePage(page+1)">Next</a></li>
-    </ul>
-  </nav>
+  <div class="users-list">
+    <h3>Entries list</h3>
+    <br>
+    <div>
+      <table *ngIf="users.length > 0" class="table">
+        <thead>
+        <tr>
+          <th>id.</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>DOB</th>
+          <th>Phone number</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.id}}</td>
+          <td>{{user.firstName}}</td>
+          <td>{{user.lastName}}</td>
+          <td>{{user.dateOfBirth | date:'dd MMM yyyy'}}</td>
+          <td>{{user.phoneNumber}}</td>
+          <td>
+            <button type="button" class="btn btn-danger btn-sm" (click)="deleteEmployee(user)" style="width: 60px;"> Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <h5 *ngIf="users.length <= 0">No entries. Please parse a file to add entries.</h5>
+      <br>
+    </div>
+  </div>
+
+  <div *ngIf="users.length > 0" class="pagination-nav">
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" [class.hidden]="page === 0" (click)="changePage(page-1)">Previous</a></li>
+        <li *ngFor="let p of ' '.repeat(pageResponse.totalPages).split(''), let i = index" class="page-item" [class.active]="i === page"><a class="page-link" (click)="changePage(i)">{{i + 1}}</a></li>
+        <li class="page-item"><a class="page-link" *ngIf="page < totalPages" (click)="changePage(page+1)">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
 </div>

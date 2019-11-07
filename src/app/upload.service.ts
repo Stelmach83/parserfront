@@ -18,6 +18,11 @@ export class UploadService {
     return this.httpClient.get<any>(getPageURL);
   }
 
+  public deleteUser(page: number, id: number): Observable<PageResponse> {
+    const getPageURL = `${environment.serverUrl}/users/delete?page=${page}&id=${id}`;
+    return this.httpClient.delete<any>(getPageURL);
+  }
+
   public upload(data) {
     const uploadURL = `${environment.serverUrl}/upload`;
 

@@ -13,7 +13,7 @@ export class ListUsersComponent implements OnInit {
   page = 0;
   users: User[] = [];
   pageResponse: PageResponse;
-  totalPages: number;
+  totalPages = 1;
 
 
   constructor(private uploadService: UploadService) {
@@ -24,13 +24,26 @@ export class ListUsersComponent implements OnInit {
   }
 
   changePage(page: number) {
-    this.uploadService.getPageResults(page).subscribe(
-      data => {
-        this.users = data.content;
-        this.pageResponse = data;
-        this.totalPages = data.totalPages;
-        this.page = page;
-      });
+    if (page >= 0 && page < this.totalPages) {
+      this.uploadService.getPageResults(page).subscribe(
+        data => {
+          this.users = data.content;
+          this.pageResponse = data;
+          this.totalPages = data.totalPages;
+          this.page = page;
+        });
+    }
+  }
+
+  deleteEmployee(user: User) {
+    if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+      this.uploadService.deleteUser(this.page, user.id).subscribe(
+        data => {
+          this.users = data.content;
+          this.pageResponse = data;
+          this.totalPages = data.totalPages;
+        });
+    }
   }
 
 }
