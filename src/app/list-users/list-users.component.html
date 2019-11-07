@@ -28,6 +28,9 @@
         </tr>
         </tbody>
       </table>
+      <div class="delete-link">
+        <a *ngIf="users.length > 0" (click)="deleteAllUsers()">delete all {{pageResponse.totalElements}} entries</a>
+      </div>
       <h5 *ngIf="users.length <= 0">No entries. Please parse a file to add entries.</h5>
       <br>
     </div>

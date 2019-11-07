@@ -30,7 +30,7 @@ export class ListUsersComponent implements OnInit {
           this.users = data.content;
           this.pageResponse = data;
           this.totalPages = data.totalPages;
-          this.page = page;
+          this.page = data.pageable.pageNumber;
         });
     }
   }
@@ -38,6 +38,18 @@ export class ListUsersComponent implements OnInit {
   deleteEmployee(user: User) {
     if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
       this.uploadService.deleteUser(this.page, user.id).subscribe(
+        data => {
+          this.users = data.content;
+          this.pageResponse = data;
+          this.totalPages = data.totalPages;
+          this.page = data.pageable.pageNumber;
+        });
+    }
+  }
+
+  deleteAllUsers() {
+    if (confirm(`Are you sure you want to delete all entries?`)) {
+      this.uploadService.deleteAllUsers().subscribe(
         data => {
           this.users = data.content;
           this.pageResponse = data;

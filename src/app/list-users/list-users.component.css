@@ -3,8 +3,14 @@
 }
 
 .users-list {
-  height: 390px;
+  height: 410px;
 }
 
 .pagination-nav {
+}
+
+.delete-link {
+  cursor: pointer;
+  color: red;
+  text-align: right;
 }

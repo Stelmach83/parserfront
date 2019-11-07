@@ -23,6 +23,11 @@ export class UploadService {
     return this.httpClient.delete<any>(getPageURL);
   }
 
+  public deleteAllUsers(): Observable<PageResponse> {
+    const getPageURL = `${environment.serverUrl}/users/deleteAll`;
+    return this.httpClient.delete<any>(getPageURL);
+  }
+
   public upload(data) {
     const uploadURL = `${environment.serverUrl}/upload`;
 
