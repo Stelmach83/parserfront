@@ -70,14 +70,27 @@ export class ListUsersComponent implements OnInit {
       this.changePage(0);
       return;
     }
-    this.uploadService.getUsersByLastName(this.form.get('lastName').value).subscribe(
-      data => {
-        this.users = data.content;
-        this.pageResponse = data;
-        this.totalPages = data.totalPages;
-        this.page = data.pageable.pageNumber;
-        this.isSearchResult = true;
-      });
+    if (page === undefined) {
+      this.uploadService.getUsersByLastName(this.form.get('lastName').value).subscribe(
+        data => {
+          this.users = data.content;
+          this.pageResponse = data;
+          this.totalPages = data.totalPages;
+          this.page = data.pageable.pageNumber;
+          this.isSearchResult = true;
+        });
+    } else {
+      if (page >= 0 && page < this.totalPages) {
+        this.uploadService.getUsersByLastName(this.form.get('lastName').value, page).subscribe(
+          data => {
+            this.users = data.content;
+            this.pageResponse = data;
+            this.totalPages = data.totalPages;
+            this.page = data.pageable.pageNumber;
+            this.isSearchResult = true;
+          });
+      }
+    }
   }
 
 }

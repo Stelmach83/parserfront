@@ -13,13 +13,18 @@ export class UploadService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getUsersByLastName(lastName: string): Observable<PageResponse> {
-    const getPageURL = `${environment.serverUrl}/users/page/lastName?lastName=${lastName}`;
+  public getUsersByLastName(lastName: string, page?: number): Observable<PageResponse> {
+    let getPageURL;
+    if (page !== undefined) {
+      getPageURL = `${environment.serverUrl}/users/${page}/${lastName}`;
+    } else {
+      getPageURL = `${environment.serverUrl}/users/0/${lastName}`;
+    }
     return this.httpClient.get<any>(getPageURL);
   }
 
   public getPageResults(page: number): Observable<PageResponse> {
-    const getPageURL = `${environment.serverUrl}/users/page?page=${page}`;
+    const getPageURL = `${environment.serverUrl}/users/${page}`;
     return this.httpClient.get<any>(getPageURL);
   }
 
