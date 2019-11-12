@@ -16,6 +16,7 @@ export class ListUsersComponent implements OnInit {
   users: User[] = [];
   pageResponse: PageResponse;
   totalPages = 1;
+  isSearchResult: boolean;
 
 
   constructor(private uploadService: UploadService) {
@@ -29,6 +30,7 @@ export class ListUsersComponent implements OnInit {
   }
 
   changePage(page: number) {
+    this.isSearchResult = false;
     if (page >= 0 && page < this.totalPages) {
       this.uploadService.getPageResults(page).subscribe(
         data => {
@@ -63,13 +65,18 @@ export class ListUsersComponent implements OnInit {
     }
   }
 
-  search() {
+  search(page?: number) {
+    if (this.form.get('lastName').value === '' || this.form.get('lastName').value === undefined) {
+      this.changePage(0);
+      return;
+    }
     this.uploadService.getUsersByLastName(this.form.get('lastName').value).subscribe(
       data => {
         this.users = data.content;
         this.pageResponse = data;
         this.totalPages = data.totalPages;
         this.page = data.pageable.pageNumber;
+        this.isSearchResult = true;
       });
   }
 

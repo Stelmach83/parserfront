@@ -4,7 +4,7 @@
     <nav>
       <div class="row">
         <div class="col-8">
-          <h3>Entries list</h3>
+          <h3 *ngIf="users.length <= 0">Entries list</h3>
         </div>
         <div class="col-4">
           <form class="form-inline my-2 my-lg-0" *ngIf="users.length > 0" [formGroup]="form" (ngSubmit)="search()">
@@ -42,19 +42,29 @@
         </tbody>
       </table>
       <div class="delete-link">
-        <a *ngIf="users.length > 0" (click)="deleteAllUsers()">delete all {{pageResponse.totalElements}} entries</a>
+        <a *ngIf="users.length > 0 && !isSearchResult" (click)="deleteAllUsers()">delete all {{pageResponse.totalElements}} entries</a>
       </div>
-      <h5 *ngIf="users.length <= 0">No entries. Please parse a file to add entries.</h5>
+      <h5 *ngIf="users.length <= 0">No entries found.</h5>
       <br>
     </div>
   </div>
 
-  <div *ngIf="users.length > 0" class="pagination-nav">
+  <div *ngIf="users.length > 0 && !isSearchResult" class="pagination-nav">
     <nav aria-label="...">
       <ul class="pagination">
-        <li class="page-item"><a class="page-link" [class.hidden]="page === 0" (click)="changePage(page-1)">Previous</a></li>
+        <li class="page-item"><a class="page-link" (click)="changePage(page-1)">Previous</a></li>
         <li *ngFor="let p of ' '.repeat(pageResponse.totalPages).split(''), let i = index" class="page-item" [class.active]="i === page"><a class="page-link" (click)="changePage(i)">{{i + 1}}</a></li>
-        <li class="page-item"><a class="page-link" *ngIf="page < totalPages" (click)="changePage(page+1)">Next</a></li>
+        <li class="page-item"><a class="page-link" (click)="changePage(page+1)">Next</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div *ngIf="users.length > 0 && isSearchResult" class="pagination-nav">
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" (click)="search(page-1)">Previous</a></li>
+        <li *ngFor="let p of ' '.repeat(pageResponse.totalPages).split(''), let i = index" class="page-item" [class.active]="i === page"><a class="page-link" (click)="search(i)">{{i + 1}}</a></li>
+        <li class="page-item"><a class="page-link" (click)="search(page+1)">Next</a></li>
       </ul>
     </nav>
   </div>
