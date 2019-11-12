@@ -33,6 +33,16 @@ export class UploadService {
     return this.httpClient.delete<any>(getPageURL);
   }
 
+  public deleteUserFromSearch(page: number, id: number, lastName: string): Observable<PageResponse> {
+    let getPageURL;
+    if (page !== undefined) {
+      getPageURL = `${environment.serverUrl}/users/${lastName}/${page}/${id}`;
+    } else {
+      getPageURL = `${environment.serverUrl}/users/${lastName}/0/${id}`;
+    }
+    return this.httpClient.delete<any>(getPageURL);
+  }
+
   public deleteAllUsers(): Observable<PageResponse> {
     const getPageURL = `${environment.serverUrl}/users/deleteAll`;
     return this.httpClient.delete<any>(getPageURL);

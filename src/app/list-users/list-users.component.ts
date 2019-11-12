@@ -17,6 +17,7 @@ export class ListUsersComponent implements OnInit {
   pageResponse: PageResponse;
   totalPages = 1;
   isSearchResult: boolean;
+  lastNameSearch: string;
 
 
   constructor(private uploadService: UploadService) {
@@ -43,14 +44,26 @@ export class ListUsersComponent implements OnInit {
   }
 
   deleteEmployee(user: User) {
-    if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
-      this.uploadService.deleteUser(this.page, user.id).subscribe(
-        data => {
-          this.users = data.content;
-          this.pageResponse = data;
-          this.totalPages = data.totalPages;
-          this.page = data.pageable.pageNumber;
-        });
+    if (!this.isSearchResult) {
+      if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+        this.uploadService.deleteUser(this.page, user.id).subscribe(
+          data => {
+            this.users = data.content;
+            this.pageResponse = data;
+            this.totalPages = data.totalPages;
+            this.page = data.pageable.pageNumber;
+          });
+      }
+    } else {
+      if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+        this.uploadService.deleteUserFromSearch(this.page, user.id, this.lastNameSearch).subscribe(
+          data => {
+            this.users = data.content;
+            this.pageResponse = data;
+            this.totalPages = data.totalPages;
+            this.page = data.pageable.pageNumber;
+          });
+      }
     }
   }
 
@@ -70,8 +83,9 @@ export class ListUsersComponent implements OnInit {
       this.changePage(0);
       return;
     }
+    this.lastNameSearch = this.form.get('lastName').value;
     if (page === undefined) {
-      this.uploadService.getUsersByLastName(this.form.get('lastName').value).subscribe(
+      this.uploadService.getUsersByLastName(this.lastNameSearch).subscribe(
         data => {
           this.users = data.content;
           this.pageResponse = data;
@@ -81,7 +95,7 @@ export class ListUsersComponent implements OnInit {
         });
     } else {
       if (page >= 0 && page < this.totalPages) {
-        this.uploadService.getUsersByLastName(this.form.get('lastName').value, page).subscribe(
+        this.uploadService.getUsersByLastName(this.lastNameSearch, page).subscribe(
           data => {
             this.users = data.content;
             this.pageResponse = data;
